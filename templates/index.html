@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/bootstrap.min.css')}}">
+    <meta charset="UTF-8">
+
+    <title>CRUDE Supremo</title>
+</head>
+
+<body>
+    {% block body %}
+    <!--Primera prueba-->
+    <div class="container">
+        <div class="well text-center">
+            <h1>CRUDE estudiantes con Python y Flask</h1>
+        </div>
+    </div>
+
+<!--Boton de agregar estudiante-->
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <h2>Lista de estudiantes <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#mymodal">
+                Agregar estudiante</button></h2>
+                <!--Comenzando con la parte de flask alv-->
+                {% if resultado %}
+                
+
+                
+                {% endif %}
+
+                <!--Creando una tabla para que se vea bonito-->
+                <table class="table table-striped">
+                    <tr>
+                        <th>Matricula</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Semestre</th>
+                        <th>Carrera</th>
+                        <th>Accion</th>
+                    </tr>
+
+                    <!--Creando la vista para la tabla-->
+                    {% for row in resultado %}
+                    <tr>
+                        <td>{{row[0]}}</td>
+                        <td>{{row[1]}}</td>
+                        <td>{{row[2]}}</td>
+                        <td>{{row[3]}}</td>
+                        <td>{{row[4]}}</td>
+                        
+                        <!--Esta es las opciones que tiene accion, son botones-->
+                        <td>
+                            <a href="/update/{{row[0]}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row[0]}}">Editar</a>
+                            <a href="/delete/{{row[0]}}" class="btn btn-danger btn-xs" onclick="return confirm('¿Estas seguro? :(')">Eliminar</a>
+                        </td>
+                        {% endfor %} 
+                    </tr>
+
+                </table>
+
+        </div>
+
+    </div>
+{% for row in resultado %}
+<!--Este bloque es para actualizar los datos del formulario-->
+<div id="modaledit{{row[0]}}" class="modal fade" role="dialog">
+        
+        <div class="modal-dialog">
+            
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Actualiza tus datos</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <form action="{{url_for('update')}}" method="POST">
+
+                        <!--Para el campo de matricula-->
+                        <div class="form-group">
+
+                            <label>Matricula:</label>
+                            <input type="text" class="form-control" name="matricula" value="{{row[0]}}">
+
+                        </div>
+
+                        <!--Para el campo nombre-->
+                        <div class="form-group">
+
+                            <label>Nombre:</label>
+                            <input type="text" class="form-control" name="nombre" value="{{row[1]}}">
+
+                        </div>
+
+                        <!--Para el campo correo-->
+                        <div class="form-group">
+
+                            <label>Correo:</label>
+                            <input type="text" class="form-control" name="correo" value="{{row[2]}}">
+
+                        </div>
+
+                        <!--Para el campo semestre-->
+                        <div class="form-group">
+                            
+                            <label>Semestre:</label>
+                            <input type="text" class="form-control" name="semestre" value="{{row[3]}}">
+                        
+                        </div>
+
+                        <!--Para el campo carrera-->
+                        <div class="form-group">
+
+                            <label>Carrera:</label>
+                            <input type="text" class="form-control" name="carrera" value="{{row[4]}}">
+                        
+                        </div>
+
+                        <!--Para el boton de agregar los datos del formulario c:-->
+                        <div class="form-group">
+
+                            <button class="btn btn-primary" type="submit">Actualizar datos</button>
+                        
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <!--El footer de nuestro formulario-->
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}
+<!--Termina el bloque del formulario-->
+
+
+
+
+<!--El inicio de rellenar los campos para tu formulario-->
+<div id="mymodal" class="modal fade" role="dialog">
+        
+        <div class="modal-dialog">
+            
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Por favor ingresa los datos</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <form action="/insert" method="POST">
+
+                        <!--Para el campo de matricula-->
+                        <div class="form-group">
+
+                            <label>Matricula:</label>
+                            <input type="text" class="form-control" name="matricula" required="1">
+
+                        </div>
+
+                        <!--Para el campo nombre-->
+                        <div class="form-group">
+
+                            <label>Nombre:</label>
+                            <input type="text" class="form-control" name="nombre" required="1">
+
+                        </div>
+
+                        <!--Para el campo correo-->
+                        <div class="form-group">
+
+                            <label>Correo:</label>
+                            <input type="text" class="form-control" name="correo" required="1">
+
+                        </div>
+
+                        <!--Para el campo semestre-->
+                        <div class="form-group">
+                            
+                            <label>Semestre:</label>
+                            <input type="text" class="form-control" name="semestre" required="1">
+                        
+                        </div>
+
+                        <!--Para el campo carrera-->
+                        <div class="form-group">
+
+                            <label>Carrera:</label>
+                            <input type="text" class="form-control" name="carrera" required="1">
+                        
+                        </div>
+
+                        <!--Para el boton de agregar los datos del formulario c:-->
+                        <div class="form-group">
+
+                            <button class="btn btn-primary" type="submit">Agregar datos</button>
+                        
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <!--El footer de nuestro formulario-->
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+<!--Termina el bloque del formulario-->
+    
+
+
+</div>
+{% endblock %}
+
+<!--Esto es el footer-->
+    <div class="well">
+        <h3>Website:www.crudesparatodos.com 
+            <span class="pull-right">Siguenos en FB</span>
+        </h3>
+    </div>
+
+</div>
+
+
+</body>
+
+<!--integracion de jquery para el boton eliminar de acccion-->
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</html>

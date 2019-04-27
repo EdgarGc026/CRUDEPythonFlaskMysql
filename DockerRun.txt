@@ -1,0 +1,1 @@
+docker run -it --rm -w /app -v //home/edgargc/docker:/app --net=mi_red -p 8086:5000 edgargc/proyecto01:teco bash
